@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+// import { DragDropContext } from "react-beautiful-dnd";
+import "./App.css";
+import InputField from "./components/InputField";
+import TodoList from "./components/TodoList";
+// import {v4 as uuid} from "uuid";
 
-function App() {
+const App = () => {
+  const [todo, setTodo] = useState("");
+  const [todos, setTodos] = useState([]);
+  const [completedTodos, setCompletedTodos] = useState([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(todo);
+    const newTodo = {
+      id: Date.now(),
+      title: todo,
+      completed: false,
+    };
+    if (todo) {
+      setTodos([...todos, newTodo]);
+      setTodo("");
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <span className="head">Daily Tasks</span>
+      <InputField todo={todo} setTodo={setTodo} handleSubmit={handleSubmit} />
+      <TodoList
+        todos={todos}
+        setTodos={setTodos}
+        completedTodos={completedTodos}
+        setCompletedTodos={setCompletedTodos}
+      />
     </div>
   );
-}
+};
 
 export default App;
